@@ -179,4 +179,29 @@ function nilai_topsis($data) {
 }
 
 
+function countCari($keyword,$topsis) {
+    if ($topsis == 1) {
+        $dbName = "hasil_topsis";
+    } else {
+        $dbName = "hasil_smart";
+    }
+    $query = "SELECT nama, nilai FROM $dbName WHERE
+            nama LIKE '%$keyword%'";
+     return queryassoc($query);
+}
+
+
+function cari($keyword,$awalData,$jumlahDataHalaman,$topsis) {
+    if ($topsis == 1) {
+        $dbName = "hasil_topsis";
+    } else {
+        $dbName = "hasil_smart";
+    }
+    $query = "SELECT nama, nilai FROM $dbName WHERE
+            nama LIKE '%$keyword%' ORDER BY nilai DESC
+            LIMIT $awalData, $jumlahDataHalaman
+            ";
+     return queryassoc($query);
+}
+
 ?>
