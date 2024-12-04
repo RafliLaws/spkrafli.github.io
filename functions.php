@@ -59,7 +59,6 @@ return mysqli_affected_rows($conn);
 
 function tambah_kriteria($data) {
     global $conn;
-    var_dump($data);
     $nama = $data["nama"];
     $nama = str_replace(" ","_",$nama);
     $arrQuery =[];
@@ -185,7 +184,7 @@ function countCari($keyword,$topsis) {
     } else {
         $dbName = "hasil_smart";
     }
-    $query = "SELECT nama, nilai FROM $dbName WHERE
+    $query = "SELECT ranking, nama, nilai FROM $dbName WHERE
             nama LIKE '%$keyword%'";
      return queryassoc($query);
 }
@@ -197,11 +196,21 @@ function cari($keyword,$awalData,$jumlahDataHalaman,$topsis) {
     } else {
         $dbName = "hasil_smart";
     }
-    $query = "SELECT nama, nilai FROM $dbName WHERE
+    $query = "SELECT ranking, nama, nilai FROM $dbName WHERE
             nama LIKE '%$keyword%' ORDER BY nilai DESC
             LIMIT $awalData, $jumlahDataHalaman
             ";
      return queryassoc($query);
+}
+
+
+function cari_peserta($keyword,$awalData,$jumlahDataHalaman) {
+    $dbName = "alternatif";
+    $query = "SELECT * FROM $dbName WHERE
+            nama LIKE '%$keyword%'
+            LIMIT $awalData, $jumlahDataHalaman
+            ";
+     return query($query);
 }
 
 ?>

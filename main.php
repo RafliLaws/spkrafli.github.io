@@ -8,6 +8,9 @@ if ( !isset($_SESSION["login"]) ) {
     exit;
 }
 
+$_SESSION["activePage"] = "main";
+include 'header.php';
+
 $query = "SELECT * FROM alternatif";
 $queryKriteria = "SELECT nama FROM bobot";
 $resultPeserta = mysqli_query($conn, $query);
@@ -25,47 +28,16 @@ $hitungKriteria= mysqli_num_rows($resultKriteria);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Halaman Utama</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar bg-primary" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      
-      SMKN 43 Jakarta
-    </a>
 
-    
-    <ul class="nav nav-underline me-4">
-  <li class="nav-item me-2">
-    <a class="nav-link active" aria-current="page" href="#">Home</a>
-  </li>
-  <li class="nav-item me-2">
-    <a class="nav-link text-primary-emphasis" href="datapeserta.php">Data Peserta</a>
-  </li>
-  <li class="nav-item me-2">
-    <a class="nav-link" href="datakriteria.php">Kriteria</a>
-  </li>
-  <li class="nav-item me-2">
-    <a class="nav-link" aria-disabled="true" href="perankingan.php">Perankingan</a>
-  </li>
-  <?php if ($_SESSION["role"] == "admin") :?>
-  <li class="nav-item me-2">
-    <a class="nav-link" aria-disabled="true" href="user.php">User</a>
-  </li>
-  <?php endif; ?>
-  <li class="nav-item me-2">
-    <a class="nav-link text-danger-emphasis"  href="logout.php">Log Out</a>
-  </li>
-</ul>
-  </div>
-</nav>
 
 <div class="container flex-column text-center mt-5 ">
   <div class="row align-items-center">
     <div class="col">
-    <img src="assets/smkn43.png" height="450">
+    <img src="assets/smkn43.png" style='height: 75%; width: 75%; object-fit: contain'>
     </div>
     <div class="col align-items-bottom text-start">
         

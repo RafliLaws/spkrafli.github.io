@@ -6,10 +6,15 @@ if ( !isset($_SESSION["login"]) ) {
   header("Location: login.php");
   exit;
 }
+
 if ($_SESSION["role"] != "admin") {
     header("Location: main.php");
     exit;
 }
+
+
+$_SESSION["activePage"] = "user";
+include 'header.php';
 
 $dataPeserta = query("SELECT * FROM user");
 $nilai = query("SELECT * FROM user");
@@ -20,7 +25,7 @@ $jumlahData = count($dataPeserta);
 
 
 
-// var_dump($jumlahData);
+// var_dump($_SESSION);
 // var_dump($jumlahKriteria);
 // var_dump($nilaiPeserta);
 // var_dump($dataPeserta);
@@ -32,51 +37,17 @@ $jumlahData = count($dataPeserta);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tambah Data User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
 <body>
 
-<nav class="navbar bg-primary" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      
-      SMKN 43 Jakarta
-    </a>
-
-    
-    <ul class="nav nav-underline me-4">
-  <li class="nav-item me-2">
-    <a class="nav-link" aria-current="page" href="main.php">Home</a>
-  </li>
-  <li class="nav-item me-2">
-    <a class="nav-link" href="datapeserta.php">Data Peserta</a>
-  </li>
-  <li class="nav-item me-2">
-    <a class="nav-link" href="datakriteria.php">Kriteria</a>
-  </li>
-  <li class="nav-item me-2">
-    <a class="nav-link" aria-disabled="true" href="perankingan.php">Perankingan</a>
-  </li>
-  <?php if ($_SESSION["role"] == "admin") :?>
-  <li class="nav-item me-2">
-    <a class="nav-link active" aria-disabled="true">User</a>
-  </li>
-  <?php endif; ?>
-  <li class="nav-item me-2">
-    <a class="nav-link text-danger-emphasis"  href="logout.php">Log Out</a>
-  </li>
-</ul>
-</ul>
-  </div>
-</nav>
-
 
 
 <div class ="container-md mx-auto">
   <h2 style="margin-top: 50px">Data Peserta</h2>
-  <a href="registrasi.php?>"><button type="button" class="btn btn-success mb-2"> + | Tambah User</button></a> 
+  <a href="registrasi.php"><button type="button" class="btn btn-success mb-2"> + | Tambah User</button></a> 
 
 <table class="table table-bordered ">
   <thead>

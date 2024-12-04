@@ -1,5 +1,18 @@
 <?php 
+session_start();
 require 'functions.php';
+
+if ( !isset($_SESSION["login"] ) ) {
+    header("Location: login.php");
+    exit;
+}
+
+
+if ( $_SESSION["role"] != "admin" ) {
+    header("Location: login.php");
+    exit;
+}
+
 if (isset($_POST["register"])) {
     if ( registrasi($_POST) > 0) {
         echo "<script>

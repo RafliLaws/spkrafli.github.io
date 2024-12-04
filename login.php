@@ -46,9 +46,9 @@ if ( isset($_POST["login"])) {
                 setcookie('aydi', $row['id'], time() + 6000000);
                 setcookie('key', hash('sha256', $row['username']),time() + 6000000 );
                 if ($row["role"] == "admin") {
-                    $_SESSION['role'] = "admin";
+                    $_SESSION["role"] = "admin";
                 } else {
-                    $_SESSION['role'] = "pengguna";
+                    $_SESSION["role"] = "pengguna";
                 }
              
             // }
@@ -69,7 +69,7 @@ if ( isset($_POST["login"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamlaman Lomgin</title>
+    <title>Halaman Lomgin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
