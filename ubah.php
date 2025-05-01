@@ -21,7 +21,7 @@ $dataPeserta = queryassoc("SELECT * FROM alternatif WHERE id = $id");
 
 
     if ( isset($_POST["submit"]) ) {
-      
+        array_pop($_POST);
         // cek apakah data berhasil berubah
         if ( ubah($_POST) > 0) {
             echo "

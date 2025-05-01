@@ -1,0 +1,13 @@
+{
+    "name": "user/phpcomposerexcel",
+    "description": "Testing",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "User\\Phpcomposerexcel\\": "src/"
+        }
+    },
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.29"
+    }
+}

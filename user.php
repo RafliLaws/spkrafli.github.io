@@ -46,7 +46,7 @@ $jumlahData = count($dataPeserta);
 
 
 <div class ="container-md mx-auto">
-  <h2 style="margin-top: 50px">Data Peserta</h2>
+  <h2 style="margin-top: 50px">Data User</h2>
   <a href="registrasi.php"><button type="button" class="btn btn-success mb-2"> + | Tambah User</button></a> 
 
 <table class="table table-bordered ">

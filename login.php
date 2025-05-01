@@ -73,13 +73,13 @@ if ( isset($_POST["login"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
-<body>
-<div class="position-absolute top-50 start-50 translate-middle">
+<body style="background-image: url('/assets/background.webp'); background-size: cover;">
+<div  class="position-absolute top-50 start-50 translate-middle">
 
     <div class="container-sm">
-    <h1>SPK Rafli</h1>
-    <table class="table d-flex justify-content-center">
-
+    <h1 style="color: white;">Sistem Penunjang Keputusan Penentuan Penerima Beasiswa</h1>
+    <table  class="table d-flex justify-content-center">
+    <tbody style="background-color: white;">
     <form action="" method="post">
     <tr>
         <tr>
@@ -100,6 +100,7 @@ if ( isset($_POST["login"])) {
             </tr>
     </tr>
 
+</tbody>
 
     </table>
 

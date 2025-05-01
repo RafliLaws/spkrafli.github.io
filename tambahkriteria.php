@@ -22,7 +22,7 @@ $dataPeserta = queryassoc("SELECT * FROM bobot limit 0,1");
     if ( isset($_POST["submit"]) ) {
         //ambil data dari tiap elemen dalam form
        
-
+        array_pop($_POST);
         //query insert data
        
         // cek apakah data berhasil berubah
@@ -79,19 +79,20 @@ $dataPeserta = queryassoc("SELECT * FROM bobot limit 0,1");
 </div>
 
     <div class="container-sm">
-    <table class="table d-flex justify-content-center">
 
-    <form action="" method="post">
-    <input type="hidden" name="id" value="">
-   
+
+    <form action="" method="post" >
+    <table class="table d-flex justify-content-center" id="myTable">
+    <input type="hidden" name="id" value="0">
+  
            <?php foreach ($dataPeserta as $dp) :?>
            <?php foreach ($dp as $key => $value) :?>
-           <?php if ($key != "id") :?>
+           <?php if ($key != "id" && $key != "opsi" && $key != "nilai" ) :?>
            <tr>
                 <td class="text-end">
                <label for="<?= $key?>"><?= $key?> :</label>
                 </td>
-               <td>
+               <td colspan="3">
                <?php if ($key != "kriteria") { ?>
                 <input required class="form-control" value="" type="text" name="<?= $key?>" id="<?= $key?>">
                 <?php } else { ?>
@@ -106,17 +107,58 @@ $dataPeserta = queryassoc("SELECT * FROM bobot limit 0,1");
           <?php endif; ?>
           <?php endforeach ?>
            <?php endforeach ?>
-
-            <tr class="d-flex justify-content-center">
-              <td colspan="2">
-                <button class="btn btn-primary" type="submit" name="submit">Tambah Data Kriteria</button>
+            <tr id="opsi">
+                <td> Opsi</td>
+                <td>
+                <input required class="form-control nama-opsi" value="" type="text" name="opsi-1"> 
+                </td>
+                <td> Nilai</td>
+                <td>  
+                <input required class="form-control nilai-opsi" value="" type="text" name="nilai-1"> 
             </td>
             </tr>
+      
+            
+                
+                </table>
+               
+            <div style="display: flex; justify-content: center; align-text: center;">
+                <button class="btn btn-primary" type="submit" name="submit">Tambah Data Kriteria</button>
+            </div>
+
+  
+
+    <button  onclick="tambah()"> Tambah Opsi </button>
+            
+
     </form> 
-
-
-
-    </table>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
 
+const tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+        let i = 2;
+    let parent = document.getElementById("form")
+
+// tambah.addEventListener("click", function() {
+//         let opsi = document.getElementById("opsi")
+//         opsi.setAttribute("id", i++)
+//         form.appendChild(opsi);
+//         console.log(opsi);
+// })
+function tambah() {
+
+    let opsi = document.getElementById("opsi").cloneNode(true)
+    let namaOpsi = opsi.querySelector(".nama-opsi")
+    let nilaiOpsi = opsi.querySelector(".nilai-opsi")
+    console.log(namaOpsi);
+    namaOpsi.setAttribute("name", "opsi-" + i)
+    nilaiOpsi.setAttribute("name", "nilai-" + i)
+    let pilihan = opsi.cloneNode(true);
+        pilihan.setAttribute("id", i++)
+        tbodyRef.appendChild(pilihan);
+        console.log(opsi);
+}
+
+    
+    </script>
 </html>

@@ -1,6 +1,6 @@
 
 <?php
-$conn = mysqli_connect("localhost","root","","test"); 
+$conn = mysqli_connect("localhost","root","","spkrafli"); 
 
    
 function query($query){
@@ -58,21 +58,38 @@ return mysqli_affected_rows($conn);
 
 
 function tambah_kriteria($data) {
-    global $conn;
     $nama = $data["nama"];
+    global $conn;
     $nama = str_replace(" ","_",$nama);
-    $arrQuery =[];
-    foreach ($data as $col => $value) {
-            $arrQuery[] = $value;  
+    $data = array_values($data);
+    $arrQuery = [];
+    for ($i=0; $i < 4; $i++) { 
+        $arrQuery[] = $data[$i];
     }
+    // foreach ($data as $col => $value) {
+    //         $arrQuery[] = $value;  
+    // }
+    for ($i = 4; $i < count($data); $i++) {
+        if ($i % 2 == 0) {
+            $opsi[] = $data[$i];
+        } else {
+            $nilai[] = $data[$i];
+        }
+    }
+    $opsi = implode(",", $opsi);
+    $nilai = implode(",", $nilai);
+    $arrQuery[] = $opsi;
+    $arrQuery[] = $nilai;
     $arrQuery = str_replace("'","''",$arrQuery);
     $tempqMid = "'" . implode("','",$arrQuery);
     $qMid = rtrim($tempqMid, ",' " ) . "'";
-    $query = "ALTER TABLE alternatif
-                ADD $nama FLOAT DEFAULT 0";
-    mysqli_query($conn,$query);
     $query = "INSERT INTO bobot VALUES ($qMid)";
-    mysqli_query($conn,$query);
+    if (mysqli_query($conn,$query)) {
+        $query = "ALTER TABLE alternatif
+                ADD $nama FLOAT DEFAULT 0";
+        mysqli_query($conn,$query);
+        return 1;
+    };
 return mysqli_affected_rows($conn);
 }
 

@@ -18,6 +18,7 @@ $resultKriteria = mysqli_query($conn, $queryKriteria);
 $hitungPeserta = mysqli_num_rows($resultPeserta);
 $hitungKriteria= mysqli_num_rows($resultKriteria);
 
+// Trying out Selection
 
 
 ?>
@@ -37,11 +38,11 @@ $hitungKriteria= mysqli_num_rows($resultKriteria);
 <div class="container flex-column text-center mt-5 ">
   <div class="row align-items-center">
     <div class="col">
-    <img src="assets/smkn43.png" style='height: 75%; width: 75%; object-fit: contain'>
+    <img src="assets/dashboard.jpg" style='height: 75%; width: 75%; object-fit: contain'>
     </div>
     <div class="col align-items-bottom text-start">
         
-    <h1>Halo, User. <br>Sistem Penunjang Keputusan Penerima KIP</h1>
+    <h1>Halo, User. <br>Sistem Penunjang Keputusan Penerima Beasiswa</h1>
 
     
 <div class="row row-cols-1 row-cols-md-2 g-4">

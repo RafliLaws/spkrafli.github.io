@@ -10,7 +10,7 @@ if ( !isset($_SESSION["login"]) ) {
 $_SESSION["activePage"] = "datapeserta";
 include 'header.php';
 
-$namaKriteria = queryassoc("SELECT nama FROM bobot");
+$namaKriteria = queryassoc("SELECT * FROM bobot");
 
 
 
@@ -45,18 +45,72 @@ if (isset($_GET["cari"]) || isset($_GET["keyword"])) {
 $jumlahKriteria = count($namaKriteria);
 
 //ignoring the id and name
-for ($i=2; $i <= $jumlahKriteria + 2; $i++) { 
+for ($i=1; $i <= $jumlahKriteria + 3; $i++) { 
     for ($j=0; $j < $jumlahDataTampil; $j++) { 
-        $nilaiPeserta[$j][$i-2] = $nilai[$j][$i];
+        $nilaiPeserta[$j][$i-1] = $nilai[$j][$i];
     }
  }
 
 
 // var_dump($jumlahData);
 // var_dump($jumlahKriteria);
-// var_dump($nilaiPeserta);
-// var_dump($dataPeserta);
 
+
+
+
+
+foreach ($namaKriteria as $row) {
+  $opsi[] = explode(",", $row["opsi"]);
+  $nilaiOpsi[] = explode(",", $row["nilai"]);
+}
+
+if (!empty($dataPeserta)) {
+  $nilaiPesertaAkhir = [];
+
+  for ($i = 0; $i < count($nilaiPeserta); $i++) {
+      $row = $nilaiPeserta[$i];
+      $finalRow = $row;
+  
+      for ($j = 3; $j < count($row); $j++) {
+          $kriteriaIndex = $j - 3;
+          $nilai = trim($row[$j]);
+  
+          // Build mapping: nilai => opsi
+          $nilaiList = $nilaiOpsi[$kriteriaIndex];
+          $opsiList = $opsi[$kriteriaIndex];
+          $map = array_combine($nilaiList, $opsiList);
+  
+          // Replace numeric value with corresponding label if it exists
+          if (isset($map[$nilai])) {
+              $finalRow[$j] = $map[$nilai];
+          }
+      }
+  
+      $nilaiPesertaAkhir[] = $finalRow;
+  }
+}
+
+
+
+// for ($x = 0; $x < count($nilaiPeserta); $x++) {
+
+// for ($b = 3; $b <= $jumlahKriteria; $b++) {
+// for ($i = 0; $i < $jumlahNilaiOpsi; $i++) {
+//   for ($y = 0; $y < count($nilaiOpsi[$i]); $y++) {
+//     if ($nilaiPeserta[$x][$b] == $nilaiOpsi[$i][$y]) {
+//       $nilaiPesertaAkhir[$x][$b] = $opsi[$i][$y];
+//     }
+//   }
+
+// }
+// }
+// }
+// for ($i = 0; $i)
+
+// var_dump($nilaiPesertaAkhir);
+// var_dump($namaKriteria);
+// var_dump($opsi);
+// var_dump($nilaiOpsi);
 
 ?>
 <!DOCTYPE html>
@@ -75,11 +129,23 @@ for ($i=2; $i <= $jumlahKriteria + 2; $i++) {
     <div class="col-md-4">
     <a href="tambahpeserta.php?>"><button type="button" class="btn btn-success mb-2"> + | Tambah Peserta</button></a> 
     </div>
+
+    <form class="row g-3" action="importData.php" method="post" enctype="multipart/form-data">
+            <div class="col-auto">
+                <label for="fileInput" class="visually-hidden">File</label>
+                <input type="file" class="form-control" name="file" id="fileInput" />
+            </div>
+            <div class="col-auto">
+                <input type="submit" class="btn btn-primary mb-3" name="importSubmit" value="Import">
+            </div>
+        </form>
+
+    
     <div class="col-md-4 offset-md-4">
     <form action="" method="get">
-    <input type="text" name="keyword" autofocus placeholder="Masukkan Keyword Pencarian" autocomplete="off">
-    <button type="submit" name="cari">Cari</button>
-</form>
+        <input size="40" type="text" name="keyword" autofocus placeholder="Masukkan Keyword Pencarian" autocomplete="off">
+        <button type="submit" name="cari">Cari</button>
+    </form>
     </div>
   </div>
 
@@ -89,8 +155,9 @@ for ($i=2; $i <= $jumlahKriteria + 2; $i++) {
   <thead>
     <tr>
     <th scope="col" widt>No.</th>
-    <th scope="col">Kode</th>
+    <th scope="col">Jurusan</th>
     <th scope="col">Nama</th>
+    <th scope="col">NIS</th>
     <?php foreach ($namaKriteria as $kriteria) : ?>
     <th scope="col"><?= $kriteria['nama'] ?></th>
     <?php endforeach; ?>
@@ -101,10 +168,17 @@ for ($i=2; $i <= $jumlahKriteria + 2; $i++) {
 
     <tr>
     <?php $k= 1; for($i = 0; $i < $jumlahDataTampil; $i++) : ?>
+      <!-- Angka -->
       <th scope="row"><?= $k + ( $jumlahDataHalaman * $onPage - $jumlahDataHalaman ); ceil($k++); ?></th>
-      <td><?= $dataPeserta[$i][1] ?></td>
-      <?php for($j = 0; $j <= $jumlahKriteria; $j++) : ?>
-             <td><?= $nilaiPeserta[$i][$j]; ?></td>
+      
+      <?php for($j = 0; $j <= 2; $j++) : ?>
+             <td><?= $nilaiPesertaAkhir[$i][$j]; ?></td>
+    <?php endfor;?>
+
+      <?php for($j = 3; $j <= $jumlahKriteria + 2; $j++) : ?>
+        
+             <td><?php echo $nilaiPesertaAkhir[$i][$j]?></td>
+         
     <?php endfor;?>
     <td>
       <a href="ubah.php?id=<?php echo $dataPeserta[$i][0] ?>"><button type="button" class="btn btn-primary">Ubah</button></a> 

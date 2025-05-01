@@ -21,7 +21,7 @@ $dataPeserta = queryassoc("SELECT * FROM alternatif limit 1,1");
     if ( isset($_POST["submit"]) ) {
         //ambil data dari tiap elemen dalam form
        
-
+        array_pop($_POST);
         //query insert data
        
         // cek apakah data berhasil berubah
@@ -71,7 +71,7 @@ $dataPeserta = queryassoc("SELECT * FROM alternatif limit 1,1");
     <table class="table d-flex justify-content-center">
 
     <form action="" method="post">
-    <input type="hidden" name="id" value="">
+    <input type="hidden" name="id" value="0">
    
            <?php foreach ($dataPeserta as $dp) :?>
            <?php foreach ($dp as $key => $value) :?>
