@@ -135,18 +135,45 @@ return $result;
 function ubah_kriteria($data) {
     global $conn;
     $result = 0;
-    var_dump($data);
     $id = $data["id"];
-    foreach ($data as $column => $value) {
+    $nama = str_replace(" ","_",$data["nama"]);
+    $bobot = $data["bobot"];
+    $kriteria = $data["kriteria"];
+    $old = $data["old_name"];
+    $data = array_values($data);
+    $arrQuery = [];
+    // foreach ($data as $col => $value) {
+    //         $arrQuery[] = $value;  
+    // }
+    for ($i = 5; $i < count($data); $i++) {
+        if ($i % 2 == 0) {
+            $opsi[] = $data[$i];
+        } else {
+            $nilai[] = $data[$i];
+        }
+    }
+    $opsi = implode(",", $opsi);
+    $nilai = implode(",", $nilai);
+
+    $arrQuery["id"] = $id;
+    $arrQuery["nama"] = str_replace("_"," ",$nama);
+    $arrQuery["bobot"] = $bobot;
+    $arrQuery["kriteria"] = $kriteria;
+    $arrQuery["opsi"] = $opsi;
+    $arrQuery["nilai"] = $nilai;
+    foreach ($arrQuery as $column => $value) {
         if ($column != "id" || $column != "submit"){
         $query = "UPDATE bobot SET $column = '$value' WHERE id = $id";
         mysqli_query($conn,$query);
         $hasil = mysqli_affected_rows($conn);
         if ($hasil == 1) {
+            
             $result = 1;
         }
         }
     }
+    $query = "ALTER TABLE alternatif RENAME COLUMN $old to $nama";
+            mysqli_query($conn,$query);
 return $result;
     
 }

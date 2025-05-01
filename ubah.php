@@ -17,8 +17,26 @@ if ( !isset($_SESSION["login"]) ) {
 
 $id = $_GET["id"];
 //query datapeserta
-$dataPeserta = queryassoc("SELECT * FROM alternatif WHERE id = $id");
+// $dataPeserta = queryassoc("SELECT * FROM alternatif WHERE id = $id");
+$rawData = queryassoc("SELECT * FROM alternatif WHERE id = $id");
+$dataPeserta[0]["jurusan"] = $rawData[0]["jurusan"];
+$dataPeserta[0]["nama"] = $rawData[0]["nama"];
+$dataPeserta[0]["nis"] = $rawData[0]["nis"];
+$np = queryassoc("SELECT * FROM alternatif limit 1,1");
+$kt = queryassoc("SELECT * FROM bobot");
 
+
+
+$rawData = array_values($rawData[0]);
+$nilai = [];
+for ($i = 4; $i < count($rawData); $i++) {
+    $nilaiPeserta[] = $rawData[$i];
+}
+
+foreach ($kt as $row) {
+    $opsi[] = explode(",", $row["opsi"]);
+    $nilai[] = explode(",", $row["nilai"]);
+}
 
     if ( isset($_POST["submit"]) ) {
         array_pop($_POST);
@@ -91,7 +109,25 @@ $dataPeserta = queryassoc("SELECT * FROM alternatif WHERE id = $id");
           <?php endif ?>
           <?php endforeach ?>
            <?php endforeach ?>
-
+            
+           <?php for ($i=0; $i < count($opsi); $i++) : ?>
+            <tr>
+            <td class="text-end">
+               <label for="<?= $kt[$i]["nama"]?>"><?= $kt[$i]["nama"]?> :</label>
+            </td>
+            <td>
+            <select class="form-select" aria-label="Default select example" name="<?php echo str_replace(" ","_",$kt[$i]["nama"])?>" id="<?= $kt[$i]["id"]?>">
+                <?php for ($j=0; $j < count($opsi[$i]); $j++) : ?>
+           
+                        <option <?php if ($nilaiPeserta[$i] == $nilai[$i][$j]) { echo "selected";}?> value="<?= $nilai[$i][$j] ?>" ><?= $opsi[$i][$j] ?></option>
+                
+                <?php endfor ?>
+        
+            </select>
+            </td>
+            </tr>
+            <?php endfor ?>
+            
             <tr class="d-flex justify-content-center">
               <td colspan="2">
                 <button class="btn btn-primary" type="submit" name="submit">Ubah Data</button>

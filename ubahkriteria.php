@@ -85,10 +85,12 @@ $nilai = explode(",", $dataPeserta[0]["nilai"]);
 </div>
 
     <div class="container-sm">
-    <table class="table d-flex justify-content-center" id="myTable">
+    
 
     <form action="" method="post">
+    <table class="table d-flex justify-content-center" id="myTable">
     <input type="hidden" name="id" value="<?= $id ?>">
+    <input type="hidden" name="old_name" value="<?= str_replace(" ","_",$dataPeserta[0]["nama"]) ?>">
    
            <?php foreach ($dataPeserta as $dp) :?>
            <?php foreach ($dp as $key => $value) :?>
@@ -115,18 +117,23 @@ $nilai = explode(",", $dataPeserta[0]["nilai"]);
 
            <?php for ($i = 0; $i < count($opsi); $i++) :?>
             
-           <tr id="opsi">
+           <tr id="opsi" class="opsi">
                 <td> Opsi</td>
                 <td>
-                <input required class="form-control nama-opsi" value="<?= $opsi[$i] ?>" type="text" name="opsi-1"> 
+                <input required class="form-control nama-opsi" value="<?= $opsi[$i] ?>" type="text" name="nama-<?= $i?>"> 
                 </td>
                 <td> Nilai</td>
                 <td>  
-                <input required class="form-control nilai-opsi" value="<?= $nilai[$i] ?>" type="text" name="nilai-1"> 
-            </td>
+                <input required class="form-control nilai-opsi" value="<?= $nilai[$i] ?>" type="text" name="nilai-<?= $i ?>"> 
+                
+                </td>
+                <td>
+                <div id="hapus" style="width: 60px; background-color: red; color: white; text-align: center; border-radius: 20px" onclick="hapus_opsi(event)"> X </div>
+
+                </td>
             </tr>
+
             <?php endfor; ?>
-      
             
                 
                 </table>
@@ -145,10 +152,10 @@ $nilai = explode(",", $dataPeserta[0]["nilai"]);
             </td>
             </tr> -->
     </form> 
-
     <button onclick="tambah()"> Tambah Opsi </button>
 
-    </table>   
+
+
 <!-- 
 
     <h1>Tambah Data Mahasiswa</h1>
@@ -185,7 +192,7 @@ $nilai = explode(",", $dataPeserta[0]["nilai"]);
 const tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
         let i = 2;
     let parent = document.getElementById("form")
-
+    let hapus = document.querySelectorAll("#hapus")
 // tambah.addEventListener("click", function() {
 //         let opsi = document.getElementById("opsi")
 //         opsi.setAttribute("id", i++)
@@ -194,7 +201,8 @@ const tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody'
 // })
 function tambah() {
 
-    let opsi = document.getElementById("opsi").cloneNode(true)
+    let ops = document.getElementsByClassName("opsi")
+    let opsi = ops[0].cloneNode(true)
     let namaOpsi = opsi.querySelector(".nama-opsi")
     namaOpsi.setAttribute("value", "")
     let nilaiOpsi = opsi.querySelector(".nilai-opsi")
@@ -206,8 +214,47 @@ function tambah() {
         pilihan.setAttribute("id", i++)
         tbodyRef.appendChild(pilihan);
         console.log(opsi);
+       
+hapus = document.querySelectorAll("#hapus")
+hapus.forEach(function (e) {
+    e.style.display = "block"
+   e.addEventListener("click", function () {
+    hapus_toggler(e)
+    e.parentNode.parentNode.remove();
+   })
+
+})
+
+
 }
 
+
+hapus.forEach(function (e) {
+   e.addEventListener("click", function () {
+    hapus_toggler(e)
+    e.parentNode.parentNode.remove();
+   })
+
+})
+
+function hapus_opsi(e) {
+    e.target.parentNode.parentNode.remove();
+}
+
+
+
+function hapus_toggler(e) {
+    e.style.display = "block"
+    let sembunyi = document.querySelectorAll("#hapus")
+    console.log(sembunyi)
+        if (sembunyi.length < 3) {
+             let hide = document.getElementById("hapus")
+             hide.style.display = "none"
+        } else {
+            let hide = document.getElementById("hapus")
+             hide.style.display = "block"
+        }
+}
     
     </script>
 

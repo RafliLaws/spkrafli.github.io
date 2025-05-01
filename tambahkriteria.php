@@ -107,7 +107,7 @@ $dataPeserta = queryassoc("SELECT * FROM bobot limit 0,1");
           <?php endif; ?>
           <?php endforeach ?>
            <?php endforeach ?>
-            <tr id="opsi">
+            <tr id="opsi" class="opsi">
                 <td> Opsi</td>
                 <td>
                 <input required class="form-control nama-opsi" value="" type="text" name="opsi-1"> 
@@ -116,6 +116,10 @@ $dataPeserta = queryassoc("SELECT * FROM bobot limit 0,1");
                 <td>  
                 <input required class="form-control nilai-opsi" value="" type="text" name="nilai-1"> 
             </td>
+            <td>
+                <div id="hapus" style="width: 60px; background-color: red; color: white; text-align: center; border-radius: 20px" onclick="hapus_opsi(event)"> X </div>
+
+                </td>
             </tr>
       
             
@@ -126,19 +130,20 @@ $dataPeserta = queryassoc("SELECT * FROM bobot limit 0,1");
                 <button class="btn btn-primary" type="submit" name="submit">Tambah Data Kriteria</button>
             </div>
 
-  
+            </form> 
 
     <button  onclick="tambah()"> Tambah Opsi </button>
             
 
-    </form> 
+  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
 
 const tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
         let i = 2;
     let parent = document.getElementById("form")
-
+    let hapus = document.querySelectorAll("#hapus")
+    hapus[0].style.display ="none"
 // tambah.addEventListener("click", function() {
 //         let opsi = document.getElementById("opsi")
 //         opsi.setAttribute("id", i++)
@@ -147,9 +152,12 @@ const tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody'
 // })
 function tambah() {
 
-    let opsi = document.getElementById("opsi").cloneNode(true)
+    let ops = document.getElementsByClassName("opsi")
+    let opsi = ops[0].cloneNode(true)
     let namaOpsi = opsi.querySelector(".nama-opsi")
+    namaOpsi.setAttribute("value", "")
     let nilaiOpsi = opsi.querySelector(".nilai-opsi")
+    nilaiOpsi.setAttribute("value", "")
     console.log(namaOpsi);
     namaOpsi.setAttribute("name", "opsi-" + i)
     nilaiOpsi.setAttribute("name", "nilai-" + i)
@@ -157,8 +165,48 @@ function tambah() {
         pilihan.setAttribute("id", i++)
         tbodyRef.appendChild(pilihan);
         console.log(opsi);
+       
+hapus = document.querySelectorAll("#hapus")
+hapus.forEach(function (e) {
+    e.style.display = "block"
+   e.addEventListener("click", function () {
+    hapus_toggler(e)
+    e.parentNode.parentNode.remove();
+   })
+
+})
+
+
 }
 
+
+hapus.forEach(function (e) {
+   e.addEventListener("click", function () {
+    hapus_toggler(e)
+    e.parentNode.parentNode.remove();
+   })
+
+})
+
+function hapus_opsi(e) {
+    e.target.parentNode.parentNode.remove();
+}
+
+
+
+function hapus_toggler(e) {
+    e.style.display = "block"
+    let sembunyi = document.querySelectorAll("#hapus")
+    console.log(sembunyi)
+        if (sembunyi.length < 2) {
+             let hide = document.getElementById("hapus")
+             hide.style.display = "none"
+        } else {
+            let hide = document.getElementById("hapus")
+             hide.style.display = "block"
+        }
+}
+    
     
     </script>
 </html>

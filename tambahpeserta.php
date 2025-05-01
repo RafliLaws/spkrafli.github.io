@@ -15,8 +15,14 @@ if ( !isset($_SESSION["login"]) ) {
     exit;
 }
 //query mahasiswa berdasarkan id
-$dataPeserta = queryassoc("SELECT * FROM alternatif limit 1,1");
+$dataPeserta = queryassoc("SELECT jurusan, nama, nis FROM alternatif limit 1,1");
+$np = queryassoc("SELECT * FROM alternatif limit 1,1");
+$kt = queryassoc("SELECT * FROM bobot");
 
+foreach ($kt as $row) {
+    $opsi[] = explode(",", $row["opsi"]);
+    $nilai[] = explode(",", $row["nilai"]);
+}
 
     if ( isset($_POST["submit"]) ) {
         //ambil data dari tiap elemen dalam form
@@ -88,6 +94,28 @@ $dataPeserta = queryassoc("SELECT * FROM alternatif limit 1,1");
           <?php endforeach ?>
            <?php endforeach ?>
 
+
+     
+           
+            <?php for ($i=0; $i < count($opsi); $i++) : ?>
+            <tr>
+            <td class="text-end">
+               <label for="<?= $kt[$i]["nama"]?>"><?= $kt[$i]["nama"]?> :</label>
+            </td>
+            <td>
+            <select class="form-select" aria-label="Default select example" name="<?= $kt[$i]["id"]?>" id="<?= $kt[$i]["id"]?>">
+                <?php for ($j=0; $j < count($opsi[$i]); $j++) : ?>
+           
+                        <option value="<?= $nilai[$i][$j] ?>"><?= $opsi[$i][$j] ?></option>
+                
+                <?php endfor ?>
+        
+            </select>
+            </td>
+            </tr>
+            <?php endfor ?>
+            
+  
             <tr class="d-flex justify-content-center">
               <td colspan="2">
                 <button class="btn btn-primary" type="submit" name="submit">Tambah Data Peserta</button>
